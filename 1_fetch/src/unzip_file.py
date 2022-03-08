@@ -1,5 +1,6 @@
 import os
 import zipfile
+import datetime
 
 def unzip_file(filename, source_dir, destination_dir):
     """
@@ -29,5 +30,9 @@ if __name__ == '__main__':
     unzipped_files = unzip_file(snakemake.input[0],
                                 snakemake.params['source_dir'],
                                 snakemake.params['destination_dir'])
+
+    supplementary_file = snakemake.output[0]
+    with open(supplementary_file, 'w') as f:
+        f.write(str(datetime.date.today()))
 
 

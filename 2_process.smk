@@ -82,9 +82,9 @@ def dynamic_filenames(site_id, file_category = 'dynamic_mntoha'):
     ).output[0]
 
     # dynamic filenames
-    drivers_file = f'{unzip_archive_drivers}/{lake.meteo_filename}'
-    clarity_file = f'{unzip_archive_clarity}/gam_{lake.site_id}_clarity.csv'
-    ice_flags_file = f'{unzip_archive_ice_flags}/pb0_{lake.site_id}_ice_flags.csv'
+    drivers_file = f'1_fetch/out/{file_category}/{drivers_directory}/{lake.meteo_filename}'
+    clarity_file = f'1_fetch/out/{file_category}/{clarity_directory}/gam_{lake.site_id}_clarity.csv'
+    ice_flags_file = f'1_fetch/out/{file_category}/{ice_flags_directory}/pb0_{lake.site_id}_ice_flags.csv'
     return [drivers_file, clarity_file, ice_flags_file]
 
 
@@ -138,7 +138,7 @@ def mntoha_obs_file(wildcards):
         file_category='obs_mntoha',
         directory_name='temperature_observations'
     ).output[0]
-    return os.path.join(obs_file_directory, "temperature_observations.csv")
+    return os.path.join('1_fetch', 'out', 'obs_mntoha', 'temperature_observations', "temperature_observations.csv")
 
 
 # Add column of observation depths interpolated to nearest modeling mesh node
