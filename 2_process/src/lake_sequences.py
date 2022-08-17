@@ -79,6 +79,7 @@ def assemble_lake_data(site_id,
                        lon_col,
                        lat_col,
                        elevation_col,
+                       clarity_col,
                        config):
     """
     Assemble features and observed temperatures from one lake into equal-length
@@ -99,6 +100,7 @@ def assemble_lake_data(site_id,
     :param lon_col: Name of column in metadata_augmented_file with longitudes.
     :param lat_col: Name of column in metadata_augmented_file with latitudes.
     :param elevation_col: Name of column in metadata_augmented_file with lake elevations.
+    :param clarity_col: Name of column in metadata_augmented_file with lake clarity values.
     :param config: Snakemake config for 2_process
     :returns: Tuple of two numpy arrays. The first array holds sequences with
         shape (# sequences, sequence_length, # depths + # features). The second
@@ -124,7 +126,7 @@ def assemble_lake_data(site_id,
         lake_sequences = np.empty((0), dtype=np.float32)
         start_dates = np.empty((0), dtype=np.float32)
     else:
-        # Read metadata with elevation
+        # Read metadata with static attributes
         lake_metadata_augmented = pd.read_csv(metadata_augmented_file)
         # NOTE: If there are duplicate sites in lake_metadata_augmented,
         # only the first will be used.
@@ -171,6 +173,7 @@ def assemble_lake_data(site_id,
         obs_full['lon'] = lake[lon_col]
         obs_full['lat'] = lake[lat_col]
         obs_full['elevation'] = lake[elevation_col]
+        obs_full['clarity'] = lake[clarity_col]
         # Now obs_full is one long timeseries with depth-specific temperatures,
         # drivers, clarity, ice_flags, and attributes as columns
 
@@ -240,6 +243,7 @@ def main(site_id,
          lon_col,
          lat_col,
          elevation_col,
+         clarity_col,
          config):
     """
     Process raw data for one lake
@@ -247,7 +251,7 @@ def main(site_id,
 
     :param site_id: site_id of lake to process
     :param out_file: Filename of npz file to save
-    :param metadata_augmented_file: lake metadata file, augmented with elevation
+    :param metadata_augmented_file: lake metadata file, augmented with static attributes
     :param obs_interpolated_file: temperature observations file, interpolated
         to LSTM depths
     :param dynamic_files: One-to-three element list of all time-varying files.
@@ -261,6 +265,7 @@ def main(site_id,
     :param lon_col: Name of column in metadata_augmented_file with longitudes.
     :param lat_col: Name of column in metadata_augmented_file with latitudes.
     :param elevation_col: Name of column in metadata_augmented_file with lake elevations.
+    :param clarity_col: Name of column in metadata_augmented_file with lake clarity values.
     :param config: Snakemake config for 2_process
 
     """
@@ -288,6 +293,7 @@ def main(site_id,
         lon_col,
         lat_col,
         elevation_col,
+        clarity_col,
         config
     )
     np.savez(out_file, lake_sequences=lake_sequences, start_dates=start_dates)
@@ -306,5 +312,6 @@ if __name__ == '__main__':
          snakemake.params['lon_col'],
          snakemake.params['lat_col'],
          snakemake.params['elevation_col'],
+         snakemake.params['clarity_col'],
          snakemake.params['config'])
 

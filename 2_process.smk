@@ -212,7 +212,7 @@ rule augment_model_prep_lake_metadata_with_clarity:
 # determine the lake_sequence file names later.
 checkpoint augment_model_prep_lake_metadata_with_elevation:
     input:
-        lake_metadata="2_process/tmp/model_prep/lake_metadata_area.csv",
+        lake_metadata="2_process/tmp/model_prep/lake_metadata_clarity.csv",
         # elevation_metadata="1_fetch/out/surface/lake_metadata.csv"
         elevation_metadata="2_process/tmp/model_prep/ned_centroid_elevations.csv"
     output:
@@ -350,6 +350,7 @@ rule lake_sequences_model_prep:
         lon_col = 'longitude',
         lat_col = 'latitude',
         elevation_col = 'elevation',
+        clarity_col = 'Kw',
         config = config
     script:
         "2_process/src/lake_sequences.py"
