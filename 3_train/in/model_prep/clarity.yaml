@@ -22,7 +22,7 @@ dropout: 0.0
 begin_loss_ind: 100 #index in sequence where we begin to calculate error or predict
 learning_rate: 0.005
 loss_criterion: 'MSELoss'
-early_stopping_patience: 50
+early_stopping_patience: 30
 max_epochs: 500
 
 seed: 12345
