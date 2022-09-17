@@ -175,6 +175,16 @@ rule convert_model_prep_clarity_to_csv:
         "2_process/src/convert_rds_to_csv.R"
 
 
+# Convert 7_config_merge/out/nml_lake_depth_values.rds to csv
+rule convert_model_prep_depth_to_csv:
+    input:
+        in_file = "2_process/in/model_prep/metadata/nml_lake_depth_values.rds"
+    output:
+        csv_file = "2_process/tmp/model_prep/nml_lake_depth_values.csv"
+    script:
+        "2_process/src/convert_rds_to_csv.R"
+
+
 # Add areas from 7_config_merge/out/canonical_lakes_areas.rds to model-prep lake metadata
 rule augment_model_prep_lake_metadata_with_area:
     input:
@@ -187,6 +197,22 @@ rule augment_model_prep_lake_metadata_with_area:
         feature_column_in="areas_m2",
         # Name to give area column in output file
         feature_column_out="area"
+    script:
+        "2_process/src/augment_lake_metadata_w_feature.py"
+
+
+# Add depth from 7_config_merge/out/nml_lake_depth_values.rds to model-prep lake metadata
+rule augment_model_prep_lake_metadata_with_depth:
+    input:
+        lake_metadata="2_process/tmp/model_prep/lake_metadata_area.csv",
+        feature_metadata="2_process/tmp/model_prep/nml_lake_depth_values.csv"
+    output:
+        augmented_metadata="2_process/tmp/model_prep/lake_metadata_depth.csv"
+    params:
+        # Name of depth column in input file
+        feature_column_in="lake_depth",
+        # Name to give depth column in output file
+        feature_column_out="lake_depth"
     script:
         "2_process/src/augment_lake_metadata_w_feature.py"
 
