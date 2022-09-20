@@ -79,6 +79,7 @@ def assemble_lake_data(site_id,
                        lon_col,
                        lat_col,
                        elevation_col,
+                       lake_depth_col,
                        config):
     """
     Assemble features and observed temperatures from one lake into equal-length
@@ -292,6 +293,7 @@ def main(site_id,
         lon_col,
         lat_col,
         elevation_col,
+        lake_depth_col,
         config
     )
     np.savez(out_file, lake_sequences=lake_sequences, start_dates=start_dates)

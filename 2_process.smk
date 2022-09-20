@@ -312,7 +312,6 @@ rule lake_sequences_mntoha:
         lon_col = 'centroid_lon',
         lat_col = 'centroid_lat',
         elevation_col = 'elevation',
-        lake_depth_col = 'lake_depth',
         config = config
     script:
         "2_process/src/lake_sequences.py"
