@@ -99,6 +99,7 @@ def assemble_lake_data(site_id,
     :param lon_col: Name of column in metadata_augmented_file with longitudes.
     :param lat_col: Name of column in metadata_augmented_file with latitudes.
     :param elevation_col: Name of column in metadata_augmented_file with lake elevations.
+    :param lake_depth_col: Name of column in metadata_augmented_file with lake depths.
     :param config: Snakemake config for 2_process
     :returns: Tuple of two numpy arrays. The first array holds sequences with
         shape (# sequences, sequence_length, # depths + # features). The second
@@ -124,7 +125,7 @@ def assemble_lake_data(site_id,
         lake_sequences = np.empty((0), dtype=np.float32)
         start_dates = np.empty((0), dtype=np.float32)
     else:
-        # Read metadata with elevation
+        # Read metadata with static attributes
         lake_metadata_augmented = pd.read_csv(metadata_augmented_file)
         # NOTE: If there are duplicate sites in lake_metadata_augmented,
         # only the first will be used.
@@ -171,6 +172,7 @@ def assemble_lake_data(site_id,
         obs_full['lon'] = lake[lon_col]
         obs_full['lat'] = lake[lat_col]
         obs_full['elevation'] = lake[elevation_col]
+        obs_full['lake_depth'] = lake[lake_depth_col]
         # Now obs_full is one long timeseries with depth-specific temperatures,
         # drivers, clarity, ice_flags, and attributes as columns
 
@@ -240,6 +242,7 @@ def main(site_id,
          lon_col,
          lat_col,
          elevation_col,
+         lake_depth_col,
          config):
     """
     Process raw data for one lake
@@ -261,6 +264,7 @@ def main(site_id,
     :param lon_col: Name of column in metadata_augmented_file with longitudes.
     :param lat_col: Name of column in metadata_augmented_file with latitudes.
     :param elevation_col: Name of column in metadata_augmented_file with lake elevations.
+    :param lake_depth_col: Name of column in metadata_augmented_file with lake depths.
     :param config: Snakemake config for 2_process
 
     """
@@ -306,5 +310,6 @@ if __name__ == '__main__':
          snakemake.params['lon_col'],
          snakemake.params['lat_col'],
          snakemake.params['elevation_col'],
+         snakemake.params['lake_depth_col'],
          snakemake.params['config'])
 

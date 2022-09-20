@@ -35,7 +35,7 @@ dynamic_features_all: [
     'Rain',
     'Snow'
 ]
-static_features_all: ['area', 'centroid_lon', 'centroid_lat', 'elevation']
+static_features_all: ['area', 'centroid_lon', 'centroid_lat', 'elevation', 'lake_depth']
 
 seed: 12345
 
