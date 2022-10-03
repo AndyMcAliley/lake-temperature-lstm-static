@@ -2,7 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 
-configfile: "2_process/process_config.yaml"
+configfile: "2_process/process_config_local.yaml"
 
 
 """
