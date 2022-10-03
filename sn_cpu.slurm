@@ -17,7 +17,7 @@ module load analytics cuda11.3/toolkit/11.3.0
 
 ## Run the main job
 
-run_id=add_depth
+run_id=depth_ealstm
 model_id=cpu_a
 data_source=model_prep
 log_dir=log/${data_source}_${run_id}_${model_id}
