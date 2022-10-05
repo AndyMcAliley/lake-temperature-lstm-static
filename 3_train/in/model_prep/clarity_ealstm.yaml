@@ -1,0 +1,30 @@
+# This run
+run_id: 'clarity_ealstm'
+run_description: 'Add lake clarity to EA-LSTM input'
+
+# features to use
+dynamic_features_use: ['ShortWave', 'LongWave', 'AirTemp', 'RelHum',
+                        'WindSpeed', 'Rain', 'Snow']
+static_features_use: ['area', 'centroid_lon', 'centroid_lat', 'elevation', 'Kw']
+depths_use: [0.,  0.5,  1.,  1.5,  2.,  2.5,  3.,  3.5,  4.,  4.5,  5., 5.5,
+              6., 6.5, 7.,  7.5,  8.,  8.5,  9.,  9.5, 10., 11., 12., 13., 14.,
+              15., 16., 17., 18., 19., 20., 22., 24., 26., 28., 30., 32., 34.,
+              36., 38., 40., 45., 50., 55., 60., 65., 70., 75., 80.]
+
+# model architecture
+hidden_size: 256
+concat_static: False # False for EA-LSTM, True for CS-LSTM
+
+# training
+batch_size: 100
+initial_forget_bias: 5 # value of the initial forget bias gate
+dropout: 0.0
+begin_loss_ind: 100 #index in sequence where we begin to calculate error or predict
+learning_rate: 0.005
+loss_criterion: 'MSELoss'
+early_stopping_patience: 30
+max_epochs: 500
+
+seed: 12345
+
+
